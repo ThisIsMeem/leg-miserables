@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 Future<int?> showChangeGoalDialog(BuildContext context) {
   return showDialog<int>(
     context: context,
-    // barrierColor: Colors.black54, // default dim
     builder: (_) => const ChangeGoalDialog(),
   );
 }
