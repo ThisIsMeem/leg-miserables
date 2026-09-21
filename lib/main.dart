@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:leg_miserables/widgets/change_daily_goal.dart';
+import 'package:leg_miserables/widgets/edit_goal_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,6 +58,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  int _dailyGoal = 10000;
+
+  Future<void> _editGoal() async {
+    final newGoal = await showChangeGoalDialog(context);
+    if (newGoal == null || !mounted) return; // user cancelled
+    setState(() => _dailyGoal = newGoal);
+  }
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -109,14 +119,11 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Text('Goal: $_dailyGoal'),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: EditGoalButton(onPressed: _editGoal),
     );
   }
 }
