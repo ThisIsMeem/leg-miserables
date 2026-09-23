@@ -56,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _steps = 0;
 
   int _dailyGoal = 10000;
 
@@ -65,6 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
     if (newGoal == null || !mounted) return; // user cancelled
     setState(() => _dailyGoal = newGoal);
   }
+
+  // Calculates progress toward the daily goal as a percentage (0–100).
+// Returns 0 if the goal is 0 or less, to avoid dividing by zero.
+double progressPercent(int steps, int goal) {
+  if (goal <= 0) return 0;               // guard: no divide-by-zero
+  double percent = (steps / goal) * 100; // the core math
+  if (percent > 100) percent = 100;      // cap at 100% (remove this line if you want real %)
+  return percent;
+}
 
   void _incrementCounter() {
     setState(() {
@@ -85,6 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+    print('Progress at 5000 steps: ${progressPercent(5000, 10000)}');
+    print('Progress at 12000 steps: ${progressPercent(12000, 10000)}');
+    print('Progress at goal 0: ${progressPercent(5000, 0)}');
+
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -114,12 +128,12 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: .center,
           children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
+                       Text(
+              '$_steps steps',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Text('Goal: $_dailyGoal'),
+            Text('Progress: ${progressPercent(_steps, _dailyGoal).toStringAsFixed(0)}%'),
           ],
         ),
       ),
