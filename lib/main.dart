@@ -2,6 +2,7 @@ import 'package:leg_miserables/widgets/step_display.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
+import 'package:leg_miserables/progress.dart';
 
 void main() {
   runApp(const MyApp());
@@ -67,14 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _dailyGoal = newGoal);
   }
 
-  // Calculates progress toward the daily goal as a percentage (0–100).
-// Returns 0 if the goal is 0 or less, to avoid dividing by zero.
-  double progressPercent(int steps, int goal) {
-  if (goal <= 0) return 0;               // guard: no divide-by-zero
-  double percent = (steps / goal) * 100; // the core math
-  if (percent > 100) percent = 100;      // cap at 100% (remove this line if you want real %)
-  return percent;
-}
 
   void _addTestSteps() {
     setState(() {
@@ -136,10 +129,36 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: _addTestSteps,
               child: const Text('Add 1000 steps (test)'),
             ),
+                        const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HistoryPlaceholder(),
+                  ),
+                );
+              },
+              child: const Text('My History'),
+            ),
           ],
         ),
       ),
       floatingActionButton: EditGoalButton(onPressed: _editGoal),
+    );
+  }
+}
+
+// Temporary stand-in for Madeline's Page 2 until it's merged into main
+// Swap HistoryPlaceholder for HistoryPageScreen once historypage.dart is available
+class HistoryPlaceholder extends StatelessWidget {
+  const HistoryPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('History (placeholder)')),
+      body: const Center(child: Text('Madeline\'s Page 2 goes here')),
     );
   }
 }
