@@ -1,3 +1,4 @@
+import 'package:leg_miserables/widgets/step_display.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
@@ -68,36 +69,33 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Calculates progress toward the daily goal as a percentage (0–100).
 // Returns 0 if the goal is 0 or less, to avoid dividing by zero.
-double progressPercent(int steps, int goal) {
+  double progressPercent(int steps, int goal) {
   if (goal <= 0) return 0;               // guard: no divide-by-zero
   double percent = (steps / goal) * 100; // the core math
   if (percent > 100) percent = 100;      // cap at 100% (remove this line if you want real %)
   return percent;
 }
 
-  void _incrementCounter() {
+  void _addTestSteps() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+       _steps += 1000; 
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    // by the __addTestSteps method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-    print('Progress at 5000 steps: ${progressPercent(5000, 10000)}');
-    print('Progress at 12000 steps: ${progressPercent(12000, 10000)}');
-    print('Progress at goal 0: ${progressPercent(5000, 0)}');
 
     return Scaffold(
       appBar: AppBar(
@@ -127,13 +125,17 @@ double progressPercent(int steps, int goal) {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: .center,
-          children: [
-                       Text(
-              '$_steps steps',
-              style: Theme.of(context).textTheme.headlineMedium,
+                    children: [
+            StepDisplay(
+              steps: _steps,
+              goal: _dailyGoal,
+              progressPercent: progressPercent(_steps, _dailyGoal),
             ),
-            Text('Goal: $_dailyGoal'),
-            Text('Progress: ${progressPercent(_steps, _dailyGoal).toStringAsFixed(0)}%'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _addTestSteps,
+              child: const Text('Add 1000 steps (test)'),
+            ),
           ],
         ),
       ),
