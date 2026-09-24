@@ -1,30 +1,24 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:leg_miserables/main.dart';
+import 'package:leg_miserables/progress.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  // Tests for progressPercent, the function that calculates how close
+  // the user's steps are to their daily goal. This is a critical piece
+  // of Page 1, so we check its normal case and its two edge cases.
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('returns 50% when steps are half the goal', () {
+    // 5000 steps toward a 10000 goal should be exactly 50%.
+    expect(progressPercent(5000, 10000), 50);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  test('caps at 100% when steps exceed the goal', () {
+    // 20000 steps on a 10000 goal would be 200%, but we cap it at 100
+    // so the progress bar never overfills.
+    expect(progressPercent(20000, 10000), 100);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('returns 0 when the goal is 0 to avoid dividing by zero', () {
+    // Dividing by zero would crash, so a goal of 0 safely returns 0.
+    expect(progressPercent(5000, 0), 0);
   });
 }
