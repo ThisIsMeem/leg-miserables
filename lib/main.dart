@@ -1,6 +1,8 @@
+import 'package:leg_miserables/widgets/step_display.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
+import 'package:leg_miserables/progress.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _steps = 0;
 
   int _dailyGoal = 10000;
 
@@ -66,25 +68,28 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() => _dailyGoal = newGoal);
   }
 
-  void _incrementCounter() {
+
+  void _addTestSteps() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+       _steps += 1000; 
     });
   }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
+    // by the __addTestSteps method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
+
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -113,17 +118,47 @@ class _MyHomePageState extends State<MyHomePage> {
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
           mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+                    children: [
+            StepDisplay(
+              steps: _steps,
+              goal: _dailyGoal,
+              progressPercent: progressPercent(_steps, _dailyGoal),
             ),
-            Text('Goal: $_dailyGoal'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _addTestSteps,
+              child: const Text('Add 1000 steps (test)'),
+            ),
+                        const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HistoryPlaceholder(),
+                  ),
+                );
+              },
+              child: const Text('My History'),
+            ),
           ],
         ),
       ),
       floatingActionButton: EditGoalButton(onPressed: _editGoal),
+    );
+  }
+}
+
+// Temporary stand-in for Madeline's Page 2 until it's merged into main
+// Swap HistoryPlaceholder for HistoryPageScreen once historypage.dart is available
+class HistoryPlaceholder extends StatelessWidget {
+  const HistoryPlaceholder({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('History (placeholder)')),
+      body: const Center(child: Text('Madeline\'s Page 2 goes here')),
     );
   }
 }
