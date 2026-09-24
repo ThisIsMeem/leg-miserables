@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
 import 'package:leg_miserables/progress.dart';
-
+import 'package:leg_miserables/historypage.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -152,8 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HistoryPlaceholder(),
-                  ),
+                               builder: (context) => HistoryPageScreen(title: 'My History')),
                 );
               },
               child: const Text('My History'),
@@ -162,20 +161,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: EditGoalButton(onPressed: _editGoal),
-    );
-  }
-}
-
-// Temporary stand-in for Madeline's Page 2 until it's merged into main
-// Swap HistoryPlaceholder for HistoryPageScreen once historypage.dart is available
-class HistoryPlaceholder extends StatelessWidget {
-  const HistoryPlaceholder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('History (placeholder)')),
-      body: const Center(child: Text('Madeline\'s Page 2 goes here')),
     );
   }
 }
