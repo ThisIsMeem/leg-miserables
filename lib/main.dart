@@ -1,3 +1,4 @@
+import 'package:pedometer/pedometer.dart';
 import 'package:leg_miserables/widgets/step_display.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
@@ -62,23 +63,43 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _dailyGoal = 10000;
 
+    // The live connection to the phone's step sensor.
+  late Stream<StepCount> _stepCountStream;
+
+    @override
+  void initState() {
+    super.initState();
+    _startListening();
+  }
+
+  // Connects to the phone's pedometer and listens for step updates.
+  void _startListening() {
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(_onStepCount).onError(_onError);
+  }
+
+  // Called each time the sensor reports a new step count.
+   // Called each time the sensor reports a new step count.
+  void _onStepCount(StepCount event) {
+    setState(() {
+      _steps = event.steps;
+    });
+  }
+
+  // Called if the sensor can't be read.
+  // Called if the sensor can't be read.
+  void _onError(error) {
+    setState(() {
+      _steps = 0;
+    });
+  }
+
   Future<void> _editGoal() async {
     final newGoal = await showChangeGoalDialog(context);
     if (newGoal == null || !mounted) return; // user cancelled
     setState(() => _dailyGoal = newGoal);
   }
 
-
-  void _addTestSteps() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-       _steps += 1000; 
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               goal: _dailyGoal,
               progressPercent: progressPercent(_steps, _dailyGoal),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _addTestSteps,
-              child: const Text('Add 1000 steps (test)'),
-            ),
+            
                         const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
