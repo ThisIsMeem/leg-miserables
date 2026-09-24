@@ -1,12 +1,15 @@
-import 'dart:async';
+//import 'dart:async';
 import 'package:flutter/material.dart';
 
 class HistoryPageScreen extends StatefulWidget{
-  const HistoryPageScreen({
+  HistoryPageScreen({
       super.key,
       required this.title,
   });
   final String title;
+  final DateTime today = DateTime.now();
+
+  String get getTodaysDate => ("${today.month}/${today.day}");
 
   @override
   State<HistoryPageScreen> createState() => _HistoryPageScreenState();
@@ -15,8 +18,25 @@ class HistoryPageScreen extends StatefulWidget{
 class _HistoryPageScreenState extends State<HistoryPageScreen>{
   @override
   Widget build(BuildContext context) {
+    
     // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+        leading: Text(widget.getTodaysDate),
+      ),
+      body: Center(
+        
+        child: Column(
+          
+          mainAxisAlignment: .center,
+          children: [
+            
+          ],
+        ),
+      ),
+    );
   }
 
 }
