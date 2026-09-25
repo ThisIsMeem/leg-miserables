@@ -5,17 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
 import 'package:leg_miserables/progress.dart';
-import 'dart:async';
-import 'package:pedometer/pedometer.dart';
- 
 
-import 'package:path/path.dart';
+import 'dart:async';
+
+import 'package:pedometer/pedometer.dart';
+
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() async {
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
   await DatabaseHelper.instance.initDb();
   await DatabaseHelper.instance.initializeHistoryItems();
 
@@ -24,7 +31,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
- 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -72,25 +79,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-    int _steps = 0;
- 
+  int _steps = 0;
+
   int _dailyGoal = 10000;
- 
+
   // The live connection to the phone's step sensor.
   late Stream<StepCount> _stepCountStream;
- 
+
   @override
   void initState() {
     super.initState();
     _startListening();
   }
- 
+
   // Connects to the phone's pedometer and listens for step updates.
   void _startListening() {
     _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(_onStepCount).onError(_onError);
   }
- 
+
   // Called each time the sensor reports a new step count.
   // Called each time the sensor reports a new step count.
   void _onStepCount(StepCount event) {
@@ -98,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _steps = event.steps;
     });
   }
- 
+
   // Called if the sensor can't be read.
   // Called if the sensor can't be read.
   void _onError(error) {
@@ -106,21 +113,20 @@ class _MyHomePageState extends State<MyHomePage> {
       _steps = 0;
     });
   }
- 
+
   Future<void> _editGoal() async {
     final newGoal = await showChangeGoalDialog(context as BuildContext);
     if (newGoal == null || !mounted) return; // user cancelled
     setState(() => _dailyGoal = newGoal);
   }
 
-  int howManySteps(){
+  int howManySteps() {
     return _steps;
   }
 
-  bool isGoalReached(){
+  bool isGoalReached() {
     return _steps >= _dailyGoal;
   }
-
 
   @override
   Widget build(BuildContext context) {

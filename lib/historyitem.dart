@@ -1,20 +1,27 @@
+class HistoryItem {
+  const HistoryItem({
+    required this.date,
+    this.steps = 0,
+    this.goalReached = false,
+  });
 
-class HistoryItem{
-  const HistoryItem({required this.date, this.steps = 0, this.goalReached = false});
-  
   final DateTime date;
   final int steps;
   final bool goalReached;
 
   Map<String, Object?> toMap() {
-    return {'date': date, 'steps': steps, 'goalReached': goalReached};
+    return {
+      'date': date.toIso8601String(),
+      'steps': steps,
+      'goalReached': goalReached ? 1 : 0,
+    };
   }
 
   factory HistoryItem.fromMap(Map<String, dynamic> map) {
     return HistoryItem(
-      date: map['date'],
-      steps: map['steps'],
-      goalReached: map['goalReached'],
+      date: DateTime.parse(map['date'] as String),
+      steps: map['steps'] as int,
+      goalReached: (map['goalReached'] as int) == 1,
     );
   }
 
@@ -23,15 +30,15 @@ class HistoryItem{
     return 'HistoryItem{date: $date, steps: $steps, goalReached: $goalReached}';
   }
 
-  String getSteps(){
+  String getSteps() {
     return steps.toString();
   }
 
-  bool wasGoalReached(){
+  bool wasGoalReached() {
     return goalReached;
   }
 
-  String getDate(){
+  String getDate() {
     int day = date.day;
     int month = date.month;
     return "$month/$day";

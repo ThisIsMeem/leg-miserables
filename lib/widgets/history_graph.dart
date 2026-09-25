@@ -8,8 +8,11 @@ class HistoryGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>>historyMaps = _fetchHistory() as List<Map<String, dynamic>>;
-    var history = historyMaps.map((historyMap) => HistoryItem.fromMap(historyMap)).toList();
+    List<Map<String, dynamic>> historyMaps =
+        _fetchHistory() as List<Map<String, dynamic>>;
+    var history = historyMaps
+        .map((historyMap) => HistoryItem.fromMap(historyMap))
+        .toList();
 
     var chart = BarChart(
       BarChartData(
@@ -42,8 +45,7 @@ class HistoryGraph extends StatelessWidget {
     );
   }
 
-
-  Future<List<Map<String, dynamic>>> _fetchHistory() async{
+  Future<List<Map<String, dynamic>>> _fetchHistory() async {
     return await DatabaseHelper.instance.queryAllHistoryItems();
   }
 }
