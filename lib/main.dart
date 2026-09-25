@@ -1,9 +1,14 @@
+import 'package:pedometer/pedometer.dart';
 import 'package:leg_miserables/widgets/step_display.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
 import 'package:leg_miserables/progress.dart';
+import 'package:leg_miserables/historypage.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> page-1-home
 void main() {
   runApp(const MyApp());
 }
@@ -34,7 +39,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Leg Miserables'),
     );
   }
 }
@@ -62,22 +67,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   int _dailyGoal = 10000;
 
+  // The live connection to the phone's step sensor.
+  late Stream<StepCount> _stepCountStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _startListening();
+  }
+
+  // Connects to the phone's pedometer and listens for step updates.
+  void _startListening() {
+    _stepCountStream = Pedometer.stepCountStream;
+    _stepCountStream.listen(_onStepCount).onError(_onError);
+  }
+
+  // Called each time the sensor reports a new step count.
+  // Called each time the sensor reports a new step count.
+  void _onStepCount(StepCount event) {
+    setState(() {
+      _steps = event.steps;
+    });
+  }
+
+  // Called if the sensor can't be read.
+  // Called if the sensor can't be read.
+  void _onError(error) {
+    setState(() {
+      _steps = 0;
+    });
+  }
+
   Future<void> _editGoal() async {
     final newGoal = await showChangeGoalDialog(context);
     if (newGoal == null || !mounted) return; // user cancelled
     setState(() => _dailyGoal = newGoal);
-  }
-
-
-  void _addTestSteps() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-       _steps += 1000; 
-    });
   }
 
   @override
@@ -89,7 +113,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-
     return Scaffold(
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
@@ -98,48 +121,57 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("Leg Miserables"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Center(
+              child: Builder(
+                builder: (context) {
+                  final now = DateTime.now();
+                  return Text('${now.month}/${now.day}');
+                },
+              ),
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-                    children: [
+          children: [
             StepDisplay(
               steps: _steps,
               goal: _dailyGoal,
               progressPercent: progressPercent(_steps, _dailyGoal),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _addTestSteps,
-              child: const Text('Add 1000 steps (test)'),
-            ),
-                        const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: () {
+            const SizedBox(height: 16),
+            InkWell(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HistoryPlaceholder(),
+<<<<<<< HEAD
+                    builder: (context) =>
+                        HistoryPageScreen(title: 'My History'),
                   ),
+=======
+                               builder: (context) => HistoryPageScreen(title: 'My History')),
+>>>>>>> page-1-home
                 );
               },
-              child: const Text('My History'),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black87, width: 2),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text('My History'), Icon(Icons.chevron_right)],
+                ),
+              ),
             ),
           ],
         ),
@@ -148,17 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+<<<<<<< HEAD
 
 // Temporary stand-in for Madeline's Page 2 until it's merged into main
 // Swap HistoryPlaceholder for HistoryPageScreen once historypage.dart is available
-class HistoryPlaceholder extends StatelessWidget {
-  const HistoryPlaceholder({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('History (placeholder)')),
-      body: const Center(child: Text('Madeline\'s Page 2 goes here')),
-    );
-  }
-}
+=======
+>>>>>>> page-1-home
