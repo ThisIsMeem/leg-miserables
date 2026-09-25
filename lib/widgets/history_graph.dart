@@ -1,4 +1,4 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:leg_miserables/historyitem.dart';
 
@@ -7,45 +7,39 @@ class HistoryGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     var pastWeek = [
-      //PLACEHOLDER DATA
+      // PLACEHOLDER DATA
       HistoryItem(date: DateTime.now()),
     ];
-    var series = [
-      charts.Series(
-        id: 'Steps',
-        domainFn: (HistoryItem weekData, _) => weekData.date,
-        measureFn: (HistoryItem weekData, _) => weekData.steps,
-        //colorFn: (HistoryItem weekData, _) => weekData.goalReached,
-        data: pastWeek,
-      ),
-    ];
 
-    var chart = new charts.BarChart(
-      series.cast<charts.Series<dynamic, String>>(),
-    );
-    var chartWidget = new Padding(
-      padding: new EdgeInsets.all(32.0),
-      child: new SizedBox(
-        height: 200.0,
-        child: chart,
+    var chart = BarChart(
+      BarChartData(
+        barGroups: pastWeek.asMap().entries.map((entry) {
+          int index = entry.key;
+          HistoryItem weekData = entry.value;
+
+          return BarChartGroupData(
+            x: index,
+            barRods: [
+              BarChartRodData(toY: weekData.steps.toDouble(), width: 20),
+            ],
+          );
+        }).toList(),
       ),
     );
-    
+
+    var chartWidget = Padding(
+      padding: const EdgeInsets.all(32.0),
+      child: SizedBox(height: 200.0, child: chart),
+    );
+
     return Scaffold(
       body: Center(
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            chartWidget,
-            ],
+          children: <Widget>[chartWidget],
         ),
-      )
+      ),
     );
-
-    //throw UnimplementedError();
   }
-  
 }
-
