@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:leg_miserables/databasehelper.dart';
 import 'package:leg_miserables/historyitem.dart';
 
 class HistoryGraph extends StatelessWidget {
@@ -7,14 +8,12 @@ class HistoryGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var pastWeek = [
-      // PLACEHOLDER DATA
-      HistoryItem(date: DateTime.now()),
-    ];
+    List<Map<String, dynamic>>historyMaps = _fetchHistory() as List<Map<String, dynamic>>;
+    var history = historyMaps.map((historyMap) => HistoryItem.fromMap(historyMap)).toList();
 
     var chart = BarChart(
       BarChartData(
-        barGroups: pastWeek.asMap().entries.map((entry) {
+        barGroups: history.asMap().entries.map((entry) {
           int index = entry.key;
           HistoryItem weekData = entry.value;
 
@@ -41,5 +40,10 @@ class HistoryGraph extends StatelessWidget {
         ),
       ),
     );
+  }
+
+
+  Future<List<Map<String, dynamic>>> _fetchHistory() async{
+    return await DatabaseHelper.instance.queryAllHistoryItems();
   }
 }
