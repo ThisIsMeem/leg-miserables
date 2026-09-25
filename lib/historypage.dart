@@ -1,5 +1,6 @@
 //import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:leg_miserables/main.dart';
 import 'package:leg_miserables/widgets/history_graph.dart';
 
 class HistoryPageScreen extends StatefulWidget{
@@ -34,6 +35,17 @@ class _HistoryPageScreenState extends State<HistoryPageScreen>{
           children: [
             HistoryGraph(),
             ListView(),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MyHomePage(title: 'placeholder'),
+                  ),
+                );
+              },
+              child: const Text('My History'),
+            ),
           ],
         ),
       ),
