@@ -5,10 +5,7 @@ import 'package:leg_miserables/widgets/change_daily_goal.dart';
 import 'package:leg_miserables/widgets/edit_goal_button.dart';
 import 'package:leg_miserables/progress.dart';
 import 'package:leg_miserables/historypage.dart';
-<<<<<<< HEAD
 
-=======
->>>>>>> page-1-home
 void main() {
   runApp(const MyApp());
 }
@@ -151,13 +148,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-<<<<<<< HEAD
                     builder: (context) =>
                         HistoryPageScreen(title: 'My History'),
                   ),
-=======
-                               builder: (context) => HistoryPageScreen(title: 'My History')),
->>>>>>> page-1-home
                 );
               },
               child: Container(
@@ -180,9 +173,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-<<<<<<< HEAD
-
-// Temporary stand-in for Madeline's Page 2 until it's merged into main
-// Swap HistoryPlaceholder for HistoryPageScreen once historypage.dart is available
-=======
->>>>>>> page-1-home
