@@ -82,9 +82,3 @@ class _HistoryPageScreenState extends State<HistoryPageScreen>{
     );
   }
 }
-/*List<HistoryItem> getHistory(){
-  List<HistoryItem> history;
-
-  historyItems();
-  return history;
-}*/

@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _editGoal() async {
-    final newGoal = await showChangeGoalDialog(context as BuildContext);
+    final newGoal = await showChangeGoalDialog(context);
     if (newGoal == null || !mounted) return; // user cancelled
     setState(() => _dailyGoal = newGoal);
   }

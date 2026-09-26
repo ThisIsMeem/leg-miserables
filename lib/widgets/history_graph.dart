@@ -3,13 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:leg_miserables/databasehelper.dart';
 import 'package:leg_miserables/historyitem.dart';
 
-class HistoryGraph extends StatelessWidget {
+class HistoryGraph extends StatefulWidget {
   const HistoryGraph({super.key});
 
   @override
+  State<HistoryGraph> createState() => _HistoryGraphState();
+}
+
+class _HistoryGraphState extends State<HistoryGraph> {
+  late List<Map<String, dynamic>> historyMaps;
+  
+   @override
+  void initState() {
+    super.initState();
+    initialize(); 
+  }
+  
+  void initialize() async {
+    historyMaps = await _fetchHistory();
+  }
+  
+  Future<List<Map<String, dynamic>>> _fetchHistory() async {
+    return await DatabaseHelper.instance.queryAllHistoryItems();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> historyMaps =
-        _fetchHistory() as List<Map<String, dynamic>>;
+    //List<Map<String, dynamic>> historyMaps = await _fetchHistory();
     var history = historyMaps
         .map((historyMap) => HistoryItem.fromMap(historyMap))
         .toList();
@@ -43,9 +63,5 @@ class HistoryGraph extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future<List<Map<String, dynamic>>> _fetchHistory() async {
-    return await DatabaseHelper.instance.queryAllHistoryItems();
   }
 }
