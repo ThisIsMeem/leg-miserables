@@ -11,7 +11,7 @@ class HistoryGraph extends StatefulWidget {
 }
 
 class _HistoryGraphState extends State<HistoryGraph> {
-  late List<Map<String, dynamic>> historyMaps;
+  List<Map<String, dynamic>> historyMaps = [];
   
    @override
   void initState() {
