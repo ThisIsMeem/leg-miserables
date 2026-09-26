@@ -12,6 +12,7 @@ class HistoryGraph extends StatefulWidget {
 
 class _HistoryGraphState extends State<HistoryGraph> {
   List<Map<String, dynamic>> historyMaps = [];
+  List<HistoryItem> history = [];
   
    @override
   void initState() {
@@ -21,6 +22,7 @@ class _HistoryGraphState extends State<HistoryGraph> {
   
   void initialize() async {
     historyMaps = await _fetchHistory();
+    history = historyMaps.map((historyMap) => HistoryItem.fromMap(historyMap)).toList();
   }
   
   Future<List<Map<String, dynamic>>> _fetchHistory() async {
@@ -30,9 +32,7 @@ class _HistoryGraphState extends State<HistoryGraph> {
   @override
   Widget build(BuildContext context) {
     //List<Map<String, dynamic>> historyMaps = await _fetchHistory();
-    var history = historyMaps
-        .map((historyMap) => HistoryItem.fromMap(historyMap))
-        .toList();
+
 
     var chart = BarChart(
       BarChartData(
