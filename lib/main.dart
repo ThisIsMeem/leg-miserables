@@ -36,10 +36,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Leg Miserables',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(
+          seedColor: const Color(0xff00aa00),
+          primary: const Color(0xff00aa00),
+          surface: const Color(0xffefec6b),
+          outline: const Color(0xff13462d),
+          brightness: Brightness.light
+          ),
       ),
+      darkTheme: ThemeData(
+        colorScheme: .fromSeed(
+          seedColor: const Color(0xff71731f),
+          primary: const Color(0xff00aa00),
+          surface: const Color(0xff13462d),
+          outline: const Color(0xffe8e7ab),
+          brightness: Brightness.dark
+          ),
+      ),
+      
       home: const MyHomePage(title: 'Leg Miserables'),
     );
   }
