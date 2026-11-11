@@ -10,14 +10,14 @@ class EditGoalButton extends StatelessWidget {
     return Tooltip(
       message: 'Change daily goal',
       child: Material(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.primary,
         shape: const CircleBorder(side: BorderSide(width: 3)),
         child: InkWell(
           customBorder: const CircleBorder(),
           onTap: onPressed,
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.all(14),
-            child: Icon(Icons.edit_outlined, size: 32, color: Colors.black),
+            child: Icon(Icons.edit_outlined, size: 32, color: Theme.of(context).colorScheme.surface),
           ),
         ),
       ),

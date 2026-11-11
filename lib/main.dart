@@ -46,7 +46,8 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light
           ),
         textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.brown)
+          bodyMedium: TextStyle(fontSize: 20, color: Colors.brown),
+          titleLarge: TextStyle(fontSize: 30, color: Colors.black)
         )
       ),
       darkTheme: ThemeData(
@@ -57,6 +58,10 @@ class MyApp extends StatelessWidget {
           outline: const Color(0xffe8e7ab),
           brightness: Brightness.dark
           ),
+      textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 20, color: Colors.yellow),
+          titleLarge: TextStyle(fontSize: 30, color: Colors.white)
+        )
       ),
       
       home: const MyHomePage(title: 'Leg Miserables'),
@@ -149,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Leg Miserables"),
+        title: Text("Leg Miserables", style: Theme.of(context).textTheme.titleLarge),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -157,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Builder(
                 builder: (context) {
                   final now = DateTime.now();
-                  return Text('${now.month}/${now.day}');
+                  return Text('${now.month}/${now.day}', style: Theme.of(context).textTheme.bodyMedium,);
                 },
               ),
             ),
