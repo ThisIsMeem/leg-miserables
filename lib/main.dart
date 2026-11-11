@@ -36,25 +36,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Leg Miserables',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(
+          seedColor: const Color(0xff00aa00),
+          primary: const Color(0xff00aa00),
+          surface: const Color(0xffefec6b),
+          outline: const Color(0xff13462d),
+          brightness: Brightness.light
+          ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 20, color: Colors.brown),
+          titleLarge: TextStyle(fontSize: 30, color: Colors.black)
+        )
       ),
+      darkTheme: ThemeData(
+        colorScheme: .fromSeed(
+          seedColor: const Color(0xff71731f),
+          primary: const Color(0xff00aa00),
+          surface: const Color(0xff13462d),
+          outline: const Color(0xffe8e7ab),
+          brightness: Brightness.dark
+          ),
+      textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 20, color: Colors.yellow),
+          titleLarge: TextStyle(fontSize: 30, color: Colors.white)
+        )
+      ),
+      
       home: const MyHomePage(title: 'Leg Miserables'),
     );
   }
@@ -145,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Leg Miserables"),
+        title: Text("Leg Miserables", style: Theme.of(context).textTheme.titleLarge),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16),
@@ -153,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Builder(
                 builder: (context) {
                   final now = DateTime.now();
-                  return Text('${now.month}/${now.day}');
+                  return Text('${now.month}/${now.day}', style: Theme.of(context).textTheme.bodyMedium,);
                 },
               ),
             ),
@@ -187,9 +196,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border.all(color: Colors.black87, width: 2),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('My History'), Icon(Icons.chevron_right)],
+                  children: [Text('My History', style: Theme.of(context).textTheme.bodyMedium), Icon(Icons.chevron_right)],
                 ),
               ),
             ),

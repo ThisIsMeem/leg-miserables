@@ -29,7 +29,7 @@ class StepDisplay extends StatelessWidget {
                 child: Center(
                   child: Text(
                     '$steps steps',
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -41,7 +41,7 @@ class StepDisplay extends StatelessWidget {
                 child: Center(
                   child: Text(
                     'Goal: $goal',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -63,8 +63,8 @@ class StepDisplay extends StatelessWidget {
                   strokeWidth: 10,
                 ),
               ),
-              const SizedBox(height: 12),
-              Text('Progress: ${progressPercent.toStringAsFixed(0)}%'),
+              SizedBox(height: 12),
+              Text('Progress: ${progressPercent.toStringAsFixed(0)}%', style:Theme.of(context).textTheme.bodyMedium),
             ],
           ),
         ),

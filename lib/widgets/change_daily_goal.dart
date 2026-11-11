@@ -41,13 +41,14 @@ class _ChangeGoalDialogState extends State<ChangeGoalDialog> {
     );
     final buttonStyle = OutlinedButton.styleFrom(
       shape: squareButton,
-      foregroundColor: Colors.black,
+      foregroundColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       side: const BorderSide(width: 2),
       padding: const EdgeInsets.symmetric(vertical: 14),
     );
 
     return Dialog(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
         side: BorderSide(width: 4),
@@ -59,7 +60,7 @@ class _ChangeGoalDialogState extends State<ChangeGoalDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Change Goal', style: Theme.of(context).textTheme.titleLarge),
-            const Divider(thickness: 2, color: Colors.black),
+            Divider(thickness: 2, color: Theme.of(context).colorScheme.surface),
             const SizedBox(height: 8),
             TextField(
               controller: _controller,
