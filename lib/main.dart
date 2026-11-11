@@ -45,6 +45,9 @@ class MyApp extends StatelessWidget {
           outline: const Color(0xff13462d),
           brightness: Brightness.light
           ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(fontSize: 16, color: Colors.brown)
+        )
       ),
       darkTheme: ThemeData(
         colorScheme: .fromSeed(
@@ -188,9 +191,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   border: Border.all(color: Colors.black87, width: 2),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text('My History'), Icon(Icons.chevron_right)],
+                  children: [Text('My History', style: Theme.of(context).textTheme.bodyMedium), Icon(Icons.chevron_right)],
                 ),
               ),
             ),
